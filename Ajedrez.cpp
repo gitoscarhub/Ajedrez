@@ -1,10 +1,15 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 using namespace sf;
+
 Texture texture;
 Texture texture2;
+
 Sprite sprite;
 Sprite sprite2;
+int posX = 0;
+int posY = 0;
+/*
 Sprite sprite3;
 Sprite sprite4;
 Sprite sprite5;
@@ -29,12 +34,24 @@ Sprite sprite21;
 float escalaX;
 float escalaY;
 float height_texture, width_texture;
-float height_texture2, width_texture2;
+float height_texture2, width_texture2;*/
 
 
 
-int main(){
+int main () {
+	//	//cargamos la textura del archivo
+	texture.loadFromFile("chessb.png");
+	//	//configuramos el material del sprite
+	sprite.setTexture(texture);
+	sprite.setPosition(0, 0);
 
+	//	//cargamaos la textura del archivo
+	texture2.loadFromFile("chessw.png");
+	//	//configuramos el material del sprite
+	sprite2.setTexture(texture2);
+	sprite2.setPosition(128, 0);
+
+	/*
 	texture.loadFromFile("chessw.png");
 	texture2.loadFromFile("chessb.png");
 	sprite.setTexture(texture);
@@ -108,12 +125,13 @@ int main(){
 	sprite18.setScale(escalaX, escalaY);
 	sprite19.setScale(escalaX, escalaY);
 	sprite20.setScale(escalaX, escalaY);
-	sprite21.setScale(escalaX, escalaY);
+	sprite21.setScale(escalaX, escalaY);*/
 	sf::RenderWindow App(sf::VideoMode(800, 800, 32),
 		"Que ventana horrible");
 	while (App.isOpen())
 	{
 		App.clear();
+		/*
 		App.draw(sprite);
 		App.draw(sprite2);
 		App.draw(sprite3);
@@ -129,8 +147,52 @@ int main(){
 		App.draw(sprite13);
 		App.draw(sprite14);
 		App.draw(sprite15);
-		App.draw(sprite16);
-		App.display();
+		App.draw(sprite16);*/
+
+		bool tablero = true;
+		//loop principal
+		while (App.isOpen())
+		{
+			//limpiamos la ventana
+			App.clear();
+
+			if (tablero) {
+				for (int i = 0; i < 6; i++)
+				{
+					for (int z = 0; z < 6; z++)
+					{
+						if (i % 2 == 0 && z % 2 == 0) {
+							//es par negro
+							sprite.setPosition(posX, posY);
+							App.draw(sprite);
+						}
+						else
+							if (i == 1 || i == 3 || i == 5)
+							{
+								if (z % 2 == 0)
+								{
+									sprite2.setPosition(posX, posY);
+									App.draw(sprite2);
+								}
+							}
+							else
+							{
+								//es impar
+								sprite2.setPosition(posX, posY);
+								App.draw(sprite2);
+							}
+						posX = posX + 128;
+
+					}
+					posY = posY + 128;
+					posX = 0;
+				}
+
+				App.display();
+			}
+			tablero = false;
+			//mostramos la ventana
+		}
 
 	}
 	return 0;
